@@ -6,8 +6,8 @@ import javax.swing.*;
 
 public class Main extends JFrame  {
     private final JSplitPane mainPanel = new JSplitPane();
-    protected final EditorPane editorPane = new EditorPane(this);
-    protected final MapPane mapPane = new MapPane(this);
+    private final EditorPane editorPane = new EditorPane(this);
+    private final MapPane mapPane = new MapPane(this);
 
     public Main() {
         this.setupJMenuBar();

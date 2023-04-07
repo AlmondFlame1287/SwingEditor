@@ -7,7 +7,6 @@ public abstract class Block {
     protected static int blockCount = 0;
     protected int blockID;
     protected Color color;
-    protected String name;
 
     public Block() {
         this.blockID = blockCount;

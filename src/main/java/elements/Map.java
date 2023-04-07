@@ -30,6 +30,10 @@ public class Map implements Serializable {
         SerializationUtil.serialize(blocks, mapFile);
     }
 
+    public <T> void addBlock(int xLine, int yLine, T block) {
+        blocks.get(yLine).add(xLine, (Block) block);
+    }
+
     public void load(File mapFile) {
         if(mapFile == null) return;
 
