@@ -2,7 +2,6 @@ package main;
 
 import gui.EditorPane;
 import gui.MapPane;
-
 import javax.swing.*;
 
 public class Main extends JFrame  {
@@ -30,9 +29,10 @@ public class Main extends JFrame  {
     }
 
     private void setupMainPanel() {
-        mainPanel.setDividerLocation(500);
+        mainPanel.setDividerLocation(600);
         mainPanel.setLeftComponent(mapPane);
         mainPanel.setRightComponent(editorPane);
+        mainPanel.setEnabled(false);
     }
 
     private void init() {
@@ -41,6 +41,7 @@ public class Main extends JFrame  {
         this.setLocationRelativeTo(null);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         this.setVisible(true);
     }
 
