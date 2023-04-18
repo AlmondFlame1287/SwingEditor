@@ -11,26 +11,26 @@ import java.io.File;
 
 public class MapPane extends JPanel implements MouseListener {
     public JFrame frame;
-    private final Map map = new Map();
+    private static final Map map = new Map();
+    private Graphics graphics;
 
     public MapPane(JFrame frame) {
         this.frame = frame;
         this.addMouseListener(this);
-        this.initPane();
     }
 
-    private File getFileFromFileChooser() {
+    public static Map getMap() {
+        return map;
+    }
+
+    public static File getFileFromFileChooser() {
         JFileChooser jfc = new JFileChooser();
-        int result = jfc.showOpenDialog(this);
+        int result = jfc.showOpenDialog(null);
 
         if(result == JFileChooser.APPROVE_OPTION) {
             return jfc.getSelectedFile();
         }
         return null;
-    }
-
-    private void initPane() {
-        this.reload();
     }
 
     public void reload() {
@@ -56,19 +56,24 @@ public class MapPane extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        this.graphics = this.getGraphics();
+
         if(e.getButton() == MouseEvent.BUTTON1)
-            this.drawBlock(e.getX(), e.getY(), Color.blue);
+            this.drawBlock(e.getX(), e.getY(), EditorPane.getColorFromBlock());
         else
             this.drawBlock(e.getX(), e.getY(), this.getBackground());
     }
 
     private void drawBlock(int x, int y, Color color) {
-        Graphics g = this.getGraphics();
-        int drawingX = (x / Block.SIZE) * Block.SIZE;
-        int drawingY = (y / Block.SIZE) * Block.SIZE;
+        int arrayAddingBlockX = x / Block.SIZE;
+        int arrayAddingBlockY = y / Block.SIZE;
+        map.addBlock(arrayAddingBlockX, arrayAddingBlockY, EditorPane.getBlock());
+        
+        int drawingX = arrayAddingBlockX * Block.SIZE;
+        int drawingY = arrayAddingBlockY * Block.SIZE;
 
-        g.setColor(color);
-        g.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);
+        this.graphics.setColor(color);
+        this.graphics.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);
     }
 
     @Override

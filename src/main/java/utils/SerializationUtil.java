@@ -16,7 +16,7 @@ public class SerializationUtil {
     }
 
     public static void serialize(Object obj, File fileName) {
-        try(FileOutputStream fos = new FileOutputStream(fileName)) {
+        try(FileOutputStream fos = new FileOutputStream(fileName + ".ser")) {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(obj);
         } catch (IOException ioe) {

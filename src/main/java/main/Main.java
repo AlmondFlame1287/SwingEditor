@@ -2,12 +2,15 @@ package main;
 
 import gui.EditorPane;
 import gui.MapPane;
+
 import javax.swing.*;
 
 public class Main extends JFrame  {
+    public static final int HEIGHT = 600;
+    public static final int WIDTH = 800;
     private final JSplitPane mainPanel = new JSplitPane();
-    protected final EditorPane editorPane = new EditorPane(this);
-    protected final MapPane mapPane = new MapPane(this);
+    private final EditorPane editorPane = new EditorPane(this);
+    private final MapPane mapPane = new MapPane(this);
 
     public Main() {
         this.setupJMenuBar();
@@ -20,6 +23,17 @@ public class Main extends JFrame  {
         JMenu menu = new JMenu("File");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem load = new JMenuItem("Load");
+
+        save.addActionListener(evt -> {
+            JFileChooser jfc = new JFileChooser();
+            int result = jfc.showSaveDialog(this);
+
+            if(result == JFileChooser.APPROVE_OPTION) {
+                MapPane.getMap().save(jfc.getSelectedFile());
+            }
+        });
+
+        load.addActionListener(evt -> mapPane.reload());
 
         menu.add(save);
         menu.add(load);
@@ -37,7 +51,7 @@ public class Main extends JFrame  {
 
     private void init() {
         this.setTitle("Ciccio Editor");
-        this.setSize(800, 600);
+        this.setSize(WIDTH, HEIGHT);
         this.setLocationRelativeTo(null);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
