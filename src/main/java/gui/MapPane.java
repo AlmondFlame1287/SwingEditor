@@ -11,27 +11,26 @@ import java.io.File;
 
 public class MapPane extends JPanel implements MouseListener {
     public JFrame frame;
-    private final Map map = new Map();
+    private static final Map map = new Map();
     private Graphics graphics;
 
     public MapPane(JFrame frame) {
         this.frame = frame;
         this.addMouseListener(this);
-        this.initPane();
     }
 
-    private File getFileFromFileChooser() {
+    public static Map getMap() {
+        return map;
+    }
+
+    public static File getFileFromFileChooser() {
         JFileChooser jfc = new JFileChooser();
-        int result = jfc.showOpenDialog(this);
+        int result = jfc.showOpenDialog(null);
 
         if(result == JFileChooser.APPROVE_OPTION) {
             return jfc.getSelectedFile();
         }
         return null;
-    }
-
-    private void initPane() {
-        this.reload();
     }
 
     public void reload() {
@@ -68,8 +67,7 @@ public class MapPane extends JPanel implements MouseListener {
     private void drawBlock(int x, int y, Color color) {
         int arrayAddingBlockX = x / Block.SIZE;
         int arrayAddingBlockY = y / Block.SIZE;
-        this.map.addBlock(arrayAddingBlockX, arrayAddingBlockY, EditorPane.getBlock());
-
+        map.addBlock(arrayAddingBlockX, arrayAddingBlockY, EditorPane.getBlock());
         
         int drawingX = arrayAddingBlockX * Block.SIZE;
         int drawingY = arrayAddingBlockY * Block.SIZE;
