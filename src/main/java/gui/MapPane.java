@@ -1,17 +1,23 @@
 package gui;
 
 import blocks.Block;
-import elements.Map;
+import elements.GameMap;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JFileChooser;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.Graphics;
+import java.awt.Color;
+
 import java.io.File;
+import java.util.Map;
 
 public class MapPane extends JPanel implements MouseListener {
     public JFrame frame;
-    private static final Map map = new Map();
+    private static final GameMap GAME_MAP = new GameMap();
     private Graphics graphics;
 
     public MapPane(JFrame frame) {
@@ -19,8 +25,8 @@ public class MapPane extends JPanel implements MouseListener {
         this.addMouseListener(this);
     }
 
-    public static Map getMap() {
-        return map;
+    public static GameMap getMap() {
+        return GAME_MAP;
     }
 
     public static File getFileFromFileChooser() {
@@ -34,23 +40,18 @@ public class MapPane extends JPanel implements MouseListener {
     }
 
     public void reload() {
-        map.load(getFileFromFileChooser());
+        GAME_MAP.load(getFileFromFileChooser());
         drawMap(this.getGraphics());
     }
 
     private void drawMap(Graphics g) {
-        if(!map.isMapLoaded()) return;
+        if(!GAME_MAP.isMapLoaded()) return;
 
-        int x = 0;
-        int y = 300;
-
-        for (int i = 0; i < map.getYLines(); i++) {
-            for (int j = 0; j < map.getXLines(i); j++) {
-                g.fillRect(x, y, Block.SIZE, Block.SIZE);
-                x += Block.SIZE;
-            }
-
-            y += Block.SIZE;
+        Map<Integer[], Block> mappedCoords = GAME_MAP.getMappedCoords();
+        for (Integer[] ints : mappedCoords.keySet()) {
+            Block blockToDraw = mappedCoords.get(ints);
+            g.setColor(blockToDraw.getColor());
+            g.fillRect(ints[0], ints[1], Block.SIZE, Block.SIZE);
         }
     }
 
@@ -65,12 +66,11 @@ public class MapPane extends JPanel implements MouseListener {
     }
 
     private void drawBlock(int x, int y, Color color) {
-        int arrayAddingBlockX = x / Block.SIZE;
-        int arrayAddingBlockY = y / Block.SIZE;
-        map.addBlock(arrayAddingBlockX, arrayAddingBlockY, EditorPane.getBlock());
-        
-        int drawingX = arrayAddingBlockX * Block.SIZE;
-        int drawingY = arrayAddingBlockY * Block.SIZE;
+        int drawingX = x / Block.SIZE * Block.SIZE;
+        int drawingY = y / Block.SIZE * Block.SIZE;
+
+        System.out.println("DREW BLOCK AT X:" + drawingX + " Y: " + drawingY);
+        GAME_MAP.addBlock(drawingX, drawingY, EditorPane.getBlock());
 
         this.graphics.setColor(color);
         this.graphics.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);
