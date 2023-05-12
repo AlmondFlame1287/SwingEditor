@@ -1,17 +1,20 @@
 package gui;
 
 import blocks.Block;
-import elements.Map;
+import elements.GameMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MapPane extends JPanel implements MouseListener {
     public JFrame frame;
-    private static final Map map = new Map();
+    private static final GameMap GAME_MAP = new GameMap();
     private Graphics graphics;
 
     public MapPane(JFrame frame) {
@@ -19,8 +22,8 @@ public class MapPane extends JPanel implements MouseListener {
         this.addMouseListener(this);
     }
 
-    public static Map getMap() {
-        return map;
+    public static GameMap getMap() {
+        return GAME_MAP;
     }
 
     public static File getFileFromFileChooser() {
@@ -34,23 +37,25 @@ public class MapPane extends JPanel implements MouseListener {
     }
 
     public void reload() {
-        map.load(getFileFromFileChooser());
+        GAME_MAP.load(getFileFromFileChooser());
         drawMap(this.getGraphics());
     }
 
     private void drawMap(Graphics g) {
-        if(!map.isMapLoaded()) return;
+        if(!GAME_MAP.isMapLoaded()) return;
 
-        int x = 0;
-        int y = 300;
-
-        for (int i = 0; i < map.getYLines(); i++) {
-            for (int j = 0; j < map.getXLines(i); j++) {
-                g.fillRect(x, y, Block.SIZE, Block.SIZE);
-                x += Block.SIZE;
+        Map<Block, Integer[][]> mappedCoords = GAME_MAP.getMappedCoords();
+        List<Block> iteratable = new ArrayList<Block>(mappedCoords.keySet());
+        for (Block b : iteratable) {
+            System.out.println("Block " + b.getName());
+            Integer[][] coords = mappedCoords.get(b);
+            for (int i = 0; i < coords.length; i++) {
+                for (int j = 0; j < coords[0].length; j++) {
+                    g.setColor(b.getColor());
+                    g.fillRect(coords[i][j], coords[i][j], Block.SIZE, Block.SIZE);
+                    System.out.println(coords[i][j]);
+                }
             }
-
-            y += Block.SIZE;
         }
     }
 
@@ -65,12 +70,10 @@ public class MapPane extends JPanel implements MouseListener {
     }
 
     private void drawBlock(int x, int y, Color color) {
-        int arrayAddingBlockX = x / Block.SIZE;
-        int arrayAddingBlockY = y / Block.SIZE;
-        map.addBlock(arrayAddingBlockX, arrayAddingBlockY, EditorPane.getBlock());
-        
-        int drawingX = arrayAddingBlockX * Block.SIZE;
-        int drawingY = arrayAddingBlockY * Block.SIZE;
+        int drawingX = x / Block.SIZE * Block.SIZE;
+        int drawingY = y / Block.SIZE * Block.SIZE;
+
+        GAME_MAP.addBlock(drawingX, drawingY, EditorPane.getBlock());
 
         this.graphics.setColor(color);
         this.graphics.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);

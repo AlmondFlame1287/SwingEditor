@@ -2,21 +2,25 @@ package utils;
 
 import java.io.*;
 
-public class SerializationUtil {
+public final class SerializationUtil {
+
+    private SerializationUtil() {
+
+    }
+
     public static Object deserialize(File file) {
-        try(
-            FileInputStream fileStream = new FileInputStream(file);
-            ObjectInputStream inputStream = new ObjectInputStream(fileStream)
-        ) {
+        try (
+                FileInputStream fileStream = new FileInputStream(file);
+                ObjectInputStream inputStream = new ObjectInputStream(fileStream)) {
             return inputStream.readObject();
-        } catch(IOException | ClassNotFoundException exception) {
+        } catch (IOException | ClassNotFoundException exception) {
             exception.printStackTrace();
         }
         return null;
     }
 
     public static void serialize(Object obj, File fileName) {
-        try(FileOutputStream fos = new FileOutputStream(fileName + ".ser")) {
+        try (FileOutputStream fos = new FileOutputStream(fileName + ".ser")) {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(obj);
         } catch (IOException ioe) {
