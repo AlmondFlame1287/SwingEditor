@@ -1,6 +1,11 @@
 package utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
 
 public final class SerializationUtil {
 
@@ -20,7 +25,7 @@ public final class SerializationUtil {
     }
 
     public static void serialize(Object obj, File fileName) {
-        try (FileOutputStream fos = new FileOutputStream(fileName + ".ser")) {
+        try (FileOutputStream fos = new FileOutputStream(fileName)) {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(obj);
         } catch (IOException ioe) {

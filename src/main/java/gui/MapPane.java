@@ -3,13 +3,16 @@ package gui;
 import blocks.Block;
 import elements.GameMap;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JFileChooser;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.Graphics;
+import java.awt.Color;
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class MapPane extends JPanel implements MouseListener {
@@ -44,18 +47,11 @@ public class MapPane extends JPanel implements MouseListener {
     private void drawMap(Graphics g) {
         if(!GAME_MAP.isMapLoaded()) return;
 
-        Map<Block, Integer[][]> mappedCoords = GAME_MAP.getMappedCoords();
-        List<Block> iteratable = new ArrayList<Block>(mappedCoords.keySet());
-        for (Block b : iteratable) {
-            System.out.println("Block " + b.getName());
-            Integer[][] coords = mappedCoords.get(b);
-            for (int i = 0; i < coords.length; i++) {
-                for (int j = 0; j < coords[0].length; j++) {
-                    g.setColor(b.getColor());
-                    g.fillRect(coords[i][j], coords[i][j], Block.SIZE, Block.SIZE);
-                    System.out.println(coords[i][j]);
-                }
-            }
+        Map<Integer[], Block> mappedCoords = GAME_MAP.getMappedCoords();
+        for (Integer[] ints : mappedCoords.keySet()) {
+            Block blockToDraw = mappedCoords.get(ints);
+            g.setColor(blockToDraw.getColor());
+            g.fillRect(ints[0], ints[1], Block.SIZE, Block.SIZE);
         }
     }
 
@@ -73,6 +69,7 @@ public class MapPane extends JPanel implements MouseListener {
         int drawingX = x / Block.SIZE * Block.SIZE;
         int drawingY = y / Block.SIZE * Block.SIZE;
 
+        System.out.println("DREW BLOCK AT X:" + drawingX + " Y: " + drawingY);
         GAME_MAP.addBlock(drawingX, drawingY, EditorPane.getBlock());
 
         this.graphics.setColor(color);

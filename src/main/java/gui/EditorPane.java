@@ -5,8 +5,16 @@ import blocks.Block;
 import blocks.DirtBlock;
 import blocks.GrassBlock;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+
 import java.util.HashMap;
 import java.util.Map;
 

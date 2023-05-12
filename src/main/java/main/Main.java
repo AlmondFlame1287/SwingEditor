@@ -3,7 +3,13 @@ package main;
 import gui.EditorPane;
 import gui.MapPane;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JSplitPane;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JFileChooser;
+import static javax.swing.SwingUtilities.invokeLater;
 
 public class Main extends JFrame  {
     public static final int HEIGHT = 600;
@@ -60,6 +66,6 @@ public class Main extends JFrame  {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(Main::new);
+        invokeLater(Main::new);
     }
 }
