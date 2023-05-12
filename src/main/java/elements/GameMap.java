@@ -2,7 +2,8 @@ package elements;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 
 import blocks.Block;
 
@@ -12,36 +13,24 @@ import static utils.SerializationUtil.deserialize;
 
 public class GameMap implements Serializable {
 
-//    public static final int xLines = WIDTH / Block.SIZE;
-//    public static final int yLines = HEIGHT / Block.SIZE;
     private boolean isMapLoaded = false;
 
-    private Map<Block, Integer[][]> blockToCoords;
+    private Map<Integer[], Block> blockToCoords;
 
     public GameMap() {
         blockToCoords = new HashMap<>();
     }
 
-//    public static void main(String[] args) {
-//        addBlock(230, 230, new Air());
-//        Set<Integer[][]> inte = coordsToBlock.keySet();
-//
-//        for (Integer[][] ints: inte) {
-//            System.out.println("Block name = " + coordsToBlock.get(ints).getName());
-//        }
-//    }
 
     public boolean isMapLoaded() {
         return this.isMapLoaded;
     }
 
     public void addBlock(int coordX, int coordY, Block block) {
-        this.blockToCoords.put(block, new Integer[][]{
-                {coordX, coordY}
-        });
+        this.blockToCoords.put(new Integer[] {coordX, coordY}, block);
     }
 
-    public Map<Block, Integer[][]> getMappedCoords() {
+    public Map<Integer[], Block> getMappedCoords() {
         return this.blockToCoords;
     }
 
@@ -55,7 +44,7 @@ public class GameMap implements Serializable {
     public void load(File mapFile) {
         if(mapFile == null) return;
 
-        this.blockToCoords = (Map<Block, Integer[][]>) deserialize(mapFile);
+        this.blockToCoords = (Map<Integer[], Block>) deserialize(mapFile);
 
         this.isMapLoaded = true;
     }
