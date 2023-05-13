@@ -44,6 +44,10 @@ public class MapPane extends JPanel implements MouseListener {
         drawMap(this.getGraphics());
     }
 
+    public void clear() {
+        this.getGraphics().clearRect(0, 0, 800, 600);
+    }
+
     private void drawMap(Graphics g) {
         if(!GAME_MAP.isMapLoaded()) return;
 
@@ -60,7 +64,7 @@ public class MapPane extends JPanel implements MouseListener {
         this.graphics = this.getGraphics();
 
         if(e.getButton() == MouseEvent.BUTTON1)
-            this.drawBlock(e.getX(), e.getY(), EditorPane.getColorFromBlock());
+            this.drawBlock(e.getX(), e.getY(), EditorPane.getBlock().getColor());
         else
             this.drawBlock(e.getX(), e.getY(), this.getBackground());
     }

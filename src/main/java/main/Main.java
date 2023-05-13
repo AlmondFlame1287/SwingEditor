@@ -29,6 +29,7 @@ public class Main extends JFrame  {
         JMenu menu = new JMenu("File");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem load = new JMenuItem("Load");
+        JMenuItem clear = new JMenuItem("Clear Screen");
 
         save.addActionListener(evt -> {
             JFileChooser jfc = new JFileChooser();
@@ -39,10 +40,16 @@ public class Main extends JFrame  {
             }
         });
 
-        load.addActionListener(evt -> mapPane.reload());
+        load.addActionListener(evt -> {
+            mapPane.clear();
+            mapPane.reload();
+        });
+
+        clear.addActionListener(evt -> mapPane.clear());
 
         menu.add(save);
         menu.add(load);
+        menu.add(clear);
 
         bar.add(menu);
         this.setJMenuBar(bar);
