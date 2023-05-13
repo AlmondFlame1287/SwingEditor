@@ -12,7 +12,6 @@ import javax.swing.JList;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 
 import java.util.HashMap;
@@ -56,9 +55,6 @@ public class EditorPane extends JPanel {
         changeBlock.addActionListener(evt -> dialog.setVisible(!dialog.isVisible()));
     }
 
-    public static Color getColorFromBlock() {
-        return indexToBlockMap.get(indexChoosen).getColor();
-    }
 
     public static Block getBlock() {
         return indexToBlockMap.get(indexChoosen);
