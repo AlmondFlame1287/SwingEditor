@@ -10,7 +10,9 @@ public abstract class Block implements Serializable {
     protected String name;
     protected Color color;
 
-    public Block() {
+    public Block(String name, Color color) {
+        this.name = name;
+        this.color = color;
         this.blockID = blockCount;
         blockCount++;
     }

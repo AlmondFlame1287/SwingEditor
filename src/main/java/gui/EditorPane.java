@@ -1,9 +1,7 @@
 package gui;
 
-import blocks.Air;
-import blocks.Block;
-import blocks.DirtBlock;
-import blocks.GrassBlock;
+import blocks.*;
+import utils.BlocksList;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -21,12 +19,8 @@ import java.util.Map;
 public class EditorPane extends JPanel {
     public JFrame frame;
     private static final JButton changeBlock = new JButton("Change block");
-    private static final JButton setSpawnPoint = new JButton("Set spawn-point");
-    private static final String[] blocks = {
-        "Air", "Grass", "Dirt"
-    };
     private static final Map<Integer, Block> indexToBlockMap = new HashMap<>();
-    private static final JList<String> nameList = new JList<>(blocks);
+    private static final JList<String> nameList = new JList<>(BlocksList.getBlockNames());
 
     private static int indexChoosen;
 
@@ -64,12 +58,12 @@ public class EditorPane extends JPanel {
         this.initMap();
         this.initButtons();
         this.add(changeBlock);
-        this.add(setSpawnPoint);
     }
 
     private void initMap() {
         indexToBlockMap.put(0, new Air());
         indexToBlockMap.put(1, new GrassBlock());
         indexToBlockMap.put(2, new DirtBlock());
+        indexToBlockMap.put(3, new SpawnPointBlock());
     }
 }

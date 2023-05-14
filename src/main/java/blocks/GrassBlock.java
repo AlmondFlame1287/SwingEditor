@@ -1,10 +1,12 @@
 package blocks;
 
+import utils.BlocksList;
+
 import java.awt.Color;
 
 public class GrassBlock extends Block {
     public GrassBlock() {
-        super();
-        this.color = Color.GREEN;
+        super("Grass", Color.GREEN);
+//        BlocksList.addBlock(this);
     }
 }
