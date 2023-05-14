@@ -1,7 +1,5 @@
 package blocks;
 
-import utils.BlocksList;
-
 import java.awt.Color;
 
 public class SpawnPointBlock extends Block {

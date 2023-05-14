@@ -1,6 +1,5 @@
 package blocks;
 
-import utils.BlocksList;
 
 import java.awt.Color;
 
