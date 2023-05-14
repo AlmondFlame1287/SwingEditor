@@ -12,17 +12,12 @@ import javax.swing.JDialog;
 
 import java.awt.FlowLayout;
 
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class EditorPane extends JPanel {
     public JFrame frame;
-    private static final JButton changeBlock = new JButton("Change block");
-    private static final Map<Integer, Block> indexToBlockMap = new HashMap<>();
-    private static final JList<String> nameList = new JList<>(BlocksList.getBlockNames());
-
-    private static int indexChoosen;
+    private static final Block[] BLOCKS = BlocksList.getBlocks();
+    private static final JList<String> NAME_LIST = new JList<>(BlocksList.getBlockNames());
 
 
     public EditorPane(JFrame parent) {
@@ -34,36 +29,26 @@ public class EditorPane extends JPanel {
     private void initButtons() {
         final JDialog dialog = new JDialog(frame);
         final JButton done = new JButton("Done");
+        final JButton changeBlock = new JButton("Change block");
 
         dialog.setSize(300, 300);
-        dialog.setLocationRelativeTo(null);
+        dialog.setLocationRelativeTo(this);
         dialog.setLayout(new FlowLayout());
-        dialog.add(nameList);
+        dialog.add(NAME_LIST);
         dialog.add(done);
 
-        done.addActionListener(evt -> {
-            dialog.setVisible(false);
-            indexChoosen = nameList.getSelectedIndex();
-        });
-
+        done.addActionListener(evt -> dialog.setVisible(false));
         changeBlock.addActionListener(evt -> dialog.setVisible(!dialog.isVisible()));
+
+        this.add(changeBlock);
     }
 
 
     public static Block getBlock() {
-        return indexToBlockMap.get(indexChoosen);
+        return BLOCKS[NAME_LIST.getSelectedIndex()];
     }
 
     private void init() {
-        this.initMap();
         this.initButtons();
-        this.add(changeBlock);
-    }
-
-    private void initMap() {
-        indexToBlockMap.put(0, new Air());
-        indexToBlockMap.put(1, new GrassBlock());
-        indexToBlockMap.put(2, new DirtBlock());
-        indexToBlockMap.put(3, new SpawnPointBlock());
     }
 }
