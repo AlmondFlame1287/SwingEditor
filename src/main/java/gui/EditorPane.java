@@ -45,7 +45,12 @@ public class EditorPane extends JPanel {
 
 
     public static Block getBlock() {
-        return BLOCKS[NAME_LIST.getSelectedIndex()];
+        try {
+            return BLOCKS[NAME_LIST.getSelectedIndex()].getClass().getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            System.err.println("Something went wrong: " + e.getMessage());
+            return null;
+        }
     }
 
     private void init() {

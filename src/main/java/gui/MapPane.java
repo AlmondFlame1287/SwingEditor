@@ -10,10 +10,8 @@ import javax.swing.JFileChooser;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.Graphics;
-import java.awt.Color;
 
 import java.io.File;
-import java.util.Map;
 
 public class MapPane extends JPanel implements MouseListener {
     public JFrame frame;
@@ -51,11 +49,9 @@ public class MapPane extends JPanel implements MouseListener {
     private void drawMap(Graphics g) {
         if(!GAME_MAP.isMapLoaded()) return;
 
-        Map<Integer[], Block> mappedCoords = GAME_MAP.getMappedCoords();
-        for (Integer[] ints : mappedCoords.keySet()) {
-            Block blockToDraw = mappedCoords.get(ints);
-            g.setColor(blockToDraw.getColor());
-            g.fillRect(ints[0], ints[1], Block.SIZE, Block.SIZE);
+        for(Block block : GAME_MAP.getBlocks()) {
+            g.setColor(block.getColor());
+            g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
         }
     }
 
@@ -64,19 +60,26 @@ public class MapPane extends JPanel implements MouseListener {
         this.graphics = this.getGraphics();
 
         if(e.getButton() == MouseEvent.BUTTON1)
-            this.drawBlock(e.getX(), e.getY(), EditorPane.getBlock().getColor());
+            this.drawBlock(e.getX(), e.getY(), EditorPane.getBlock());
         else
-            this.drawBlock(e.getX(), e.getY(), this.getBackground());
+            this.drawBlock(e.getX(), e.getY(), null);
     }
 
-    private void drawBlock(int x, int y, Color color) {
+    private void drawBlock(int x, int y, Block blockToDraw) {
         int drawingX = x / Block.SIZE * Block.SIZE;
         int drawingY = y / Block.SIZE * Block.SIZE;
 
-        System.out.println("DREW BLOCK AT X:" + drawingX + " Y: " + drawingY);
-        GAME_MAP.addBlock(drawingX, drawingY, EditorPane.getBlock());
+        if(blockToDraw == null) {
+            this.graphics.setColor(this.getBackground());
+            this.graphics.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);
+            return;
+        }
 
-        this.graphics.setColor(color);
+        System.out.println("DREW BLOCK AT X:" + drawingX + " Y: " + drawingY);
+        blockToDraw.setCoords(drawingX, drawingY);
+        GAME_MAP.addBlock(blockToDraw);
+
+        this.graphics.setColor(blockToDraw.getColor());
         this.graphics.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);
     }
 
