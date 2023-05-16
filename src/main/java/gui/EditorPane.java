@@ -45,16 +45,12 @@ public class EditorPane extends JPanel {
 
 
     public static Block getBlock() {
-        // TODO: find a way not to return the same object over and over again
-        // return BLOCKS[NAME_LIST.getSelectedIndex()];
-        char firstLetter = BLOCKS[NAME_LIST.getSelectedIndex()].getName().toCharArray()[0];
-        return switch (firstLetter) {
-            case 'A' -> new Air();
-            case 'D' -> new DirtBlock();
-            case 'G' -> new GrassBlock();
-            case 'S' -> new SpawnPointBlock();
-            default -> null;
-        };
+        try {
+            return BLOCKS[NAME_LIST.getSelectedIndex()].getClass().getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            System.err.println("Something went wrong: " + e.getMessage());
+            return null;
+        }
     }
 
     private void init() {
