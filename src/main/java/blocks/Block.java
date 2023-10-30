@@ -3,7 +3,7 @@ package blocks;
 import java.awt.Color;
 import java.io.Serializable;
 
-public abstract class Block implements Serializable {
+public class Block implements Serializable {
     public static final int SIZE = 32;
     private final int[] coords = new int[2];
     protected String name;
@@ -11,6 +11,11 @@ public abstract class Block implements Serializable {
     public Block(String name, Color color) {
         this.name = name;
         this.color = color;
+    }
+
+    public Block(String name, int r, int g, int b) {
+        this.name = name;
+        this.color = new Color(r, g, b);
     }
 
     public Color getColor() {
@@ -29,5 +34,9 @@ public abstract class Block implements Serializable {
     public void setCoords(int x, int y) {
         this.coords[0] = x;
         this.coords[1] = y;
+    }
+
+    public String toString() {
+        return this.name + "," + this.color.getRed() + "," + this.color.getGreen() + "," + this.color.getBlue();
     }
 }

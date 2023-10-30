@@ -74,7 +74,8 @@ public class Main extends JFrame  {
     }
 
     public static void main(String[] args) {
-        BlocksList.initList();
+//        BlocksList.initList();
+        BlocksList.readFile();
         invokeLater(Main::new);
     }
 }
