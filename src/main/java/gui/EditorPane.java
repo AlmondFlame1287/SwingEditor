@@ -16,7 +16,6 @@ import java.awt.FlowLayout;
 
 public class EditorPane extends JPanel {
     public JFrame frame;
-    private static final Block[] BLOCKS = BlocksList.getBlocks();
     private static final JList<String> NAME_LIST = new JList<>(BlocksList.getBlockNames());
 
 
@@ -46,9 +45,9 @@ public class EditorPane extends JPanel {
 
     public static Block getBlock() {
         try {
-            return BLOCKS[NAME_LIST.getSelectedIndex()].getClass().getDeclaredConstructor().newInstance();
+            return BlocksList.getBlocks()[NAME_LIST.getSelectedIndex()];
         } catch (Exception e) {
-            System.err.println("Something went wrong: " + e.getMessage());
+            System.err.println("EDITORPANE: Something went wrong: " + e.getMessage());
             return null;
         }
     }
