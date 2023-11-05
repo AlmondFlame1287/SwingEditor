@@ -13,11 +13,10 @@ import javax.swing.*;
  *
  */
 public class BlockCreationDialog extends JDialog {
-    private static final CreationPanel MAIN_PANEL = new CreationPanel();
 
     public BlockCreationDialog() {
-        this.setSize(1280, 720);
-        this.setContentPane(MAIN_PANEL);
+        this.setSize(800, 600);
+        this.setContentPane(new CreationPanel(this));
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
