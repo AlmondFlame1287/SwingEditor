@@ -19,11 +19,6 @@ public class BlockCreationDialog extends JDialog {
         this.setContentPane(new CreationPanel(this));
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(BlockCreationDialog::new);
     }
 
 }
