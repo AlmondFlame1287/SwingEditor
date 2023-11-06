@@ -1,6 +1,7 @@
 package gui;
 
 import blocks.*;
+import gui.blockcreation.BlockCreationDialog;
 import utils.BlocksList;
 
 import javax.swing.JPanel;
@@ -27,8 +28,10 @@ public class EditorPane extends JPanel {
 
     private void initButtons() {
         final JDialog dialog = new JDialog(frame);
+        final BlockCreationDialog blockCreationDialog = new BlockCreationDialog();
         final JButton done = new JButton("Done");
         final JButton changeBlock = new JButton("Change block");
+        final JButton createBlock = new JButton("Create block");
 
         dialog.setSize(300, 300);
         dialog.setLocationRelativeTo(this);
@@ -38,8 +41,10 @@ public class EditorPane extends JPanel {
 
         done.addActionListener(evt -> dialog.setVisible(false));
         changeBlock.addActionListener(evt -> dialog.setVisible(!dialog.isVisible()));
+        createBlock.addActionListener(evt -> blockCreationDialog.setVisible(!blockCreationDialog.isVisible()));
 
         this.add(changeBlock);
+        this.add(createBlock);
     }
 
 

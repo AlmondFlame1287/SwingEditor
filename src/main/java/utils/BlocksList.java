@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public final class BlocksList {
-    private static final String BLOCKLIST_FOLDER = System.getProperty("user.home") + "/blocks/";
+    public static final String BLOCKLIST_FOLDER = System.getProperty("user.home") + "/blocks/";
     private static final String BLOCKLIST_PATH = BLOCKLIST_FOLDER + "blocks.txt";
     private static final File BLOCKLIST_FILE = new File(BLOCKLIST_PATH);
     private static Block[] blocks;
@@ -25,8 +25,10 @@ public final class BlocksList {
                 throw new IOException("File was not created successfully");
             }
         } catch(IOException io) {
-            System.err.println(io.getMessage());
+            System.err.println("[BLOCKLIST] There was a problem: " + io.getMessage());
             System.exit(-1);
+        } catch(NullPointerException npe) {
+            System.err.println("[BLOCKLIST] There was a problem: " + npe.getMessage());
         }
 
         initFile();
@@ -35,7 +37,7 @@ public final class BlocksList {
     private static void initFile() {
         try(FileWriter fw = new FileWriter(BLOCKLIST_FILE);
             BufferedWriter bw = new BufferedWriter(fw)) {
-            Block[] blocksToWrite = {new Air(), new GrassBlock(), new DirtBlock(), new SpawnPointBlock()};
+            Block[] blocksToWrite = {new Block("Air"), new Block("Grass"), new Block("Dirt"), new Block("Spawnpoint")};
 
             for (Block block : blocksToWrite) {
                 bw.write(block + "\n");
@@ -71,16 +73,12 @@ public final class BlocksList {
                 String[] blockProperties = str.split(",");
                 System.out.println(Arrays.toString(blockProperties));
 
-                int r, g, b;
-                r = Integer.parseInt(blockProperties[1]);
-                g = Integer.parseInt(blockProperties[2]);
-                b = Integer.parseInt(blockProperties[3]);
 
-                Block newBlock = new Block(blockProperties[0], r, g, b);
+                Block newBlock = new Block(blockProperties[0], blockProperties[1]);
                 readBlocks.add(newBlock);
             }
 
-            blocks = new Block[readBlocks.size()]; // I don't know if this is going to work
+            blocks = new Block[readBlocks.size()];
             blockNames = new String[readBlocks.size()];
 
             for (int i = 0; i < blockNames.length; i++) {
@@ -96,36 +94,11 @@ public final class BlocksList {
 
     }
 
-    /**
-     * Initializes the list for <code>EditorPane.NAME_LIST</code>
-     */
-//    public static void initList() {
-//        blockSet.add(new GrassBlock());
-//        blockSet.add(new Air()); // Do I really need this?
-//        blockSet.add(new DirtBlock());
-//        blockSet.add(new SpawnPointBlock());
-//
-//        blocks = new Block[blockSet.size()];
-//        blockNames = new String[blocks.length];
-//    }
-
     public static Block[] getBlocks() {
-//        if(blocks[0] != null) return blocks;
-//
-//        int i = 0;
-//        for(Block b : blockSet) {
-//            blocks[i] = b;
-//            i++;
-//        }
         return blocks;
     }
 
     public static String[] getBlockNames() {
-//        if(blockNames[0] != null) return blockNames;
-//
-//        for (int i = 0; i < blockNames.length; i++) {
-//            blockNames[i] = blocks[i].getName();
-//        }
         return blockNames;
     }
 }
