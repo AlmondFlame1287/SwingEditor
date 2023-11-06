@@ -12,20 +12,26 @@ public class Block implements Serializable {
     public static final String IMAGE_DIR = System.getProperty("user.home") + "/blocks/";
     private final int[] coords = new int[2];
     protected String name;
-    protected Color color;
+    protected File imgFile;
     protected Image blockTexture;
+
+    public Block(String name, String path) {
+        this.name = name;
+        imgFile = new File(path);
+        this.loadImage();
+    }
 
     public Block(String name) {
         this.name = name;
+        imgFile = new File(IMAGE_DIR + this.name + ".png");
         this.loadImage();
     }
 
     private void loadImage() {
         try {
-            File imgFile = new File(IMAGE_DIR + this.name + ".png");
             if(!imgFile.exists())
                 throw new FileNotFoundException("File doesn't exist");
-            this.blockTexture = ImageIO.read(imgFile);
+            this.blockTexture = ImageIO.read(imgFile).getScaledInstance(SIZE, SIZE, Image.SCALE_FAST);
         } catch(FileNotFoundException fnf) {
             System.err.println("[BLOCK] " + fnf.getMessage());
         } catch(IOException ioe) {
@@ -33,20 +39,8 @@ public class Block implements Serializable {
         }
     }
 
-    public Block(String name, Color color) {
-        this.name = name;
-        this.color = color;
-    }
-
-    @Deprecated
-    public Block(String name, int r, int g, int b) {
-        this.name = name;
-        this.color = new Color(r, g, b);
-    }
-
-
-    public Color getColor() {
-        return this.color;
+    public Image getImage() {
+        return this.blockTexture;
     }
 
     public String getName() { return this.name; }
@@ -64,6 +58,6 @@ public class Block implements Serializable {
     }
 
     public String toString() {
-        return this.name + "," + this.color.getRed() + "," + this.color.getGreen() + "," + this.color.getBlue();
+        return this.name + "," + ((this.imgFile.toString() == null) ? "no_image" : this.imgFile.toString());
     }
 }
