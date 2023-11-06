@@ -15,6 +15,7 @@ import java.io.IOException;
  * Drawing panel for the BlockCreation structure
  */
 public class DrawingPanel extends JPanel implements MouseListener {
+    public static final int IMG_TYPE = BufferedImage.TYPE_INT_RGB;
     private Color paintColor;
     private Graphics graphics;
     private BufferedImage img;
@@ -29,7 +30,7 @@ public class DrawingPanel extends JPanel implements MouseListener {
 
     private void init() {
         this.setSize(Block.SIZE * 10, Block.SIZE * 10);
-        this.img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+        this.img = new BufferedImage(this.getWidth(), this.getHeight(), IMG_TYPE);
         this.imgGraphics = this.img.createGraphics();
         this.addMouseListener(this);
         this.setBorder(BorderFactory.createTitledBorder("Drawing area"));
