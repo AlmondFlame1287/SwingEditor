@@ -3,6 +3,7 @@ package main;
 import gui.EditorPane;
 import gui.MapPane;
 import utils.BlocksList;
+import utils.DefaultBlockCreator;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -74,7 +75,7 @@ public class Main extends JFrame  {
     }
 
     public static void main(String[] args) {
-//        BlocksList.initList();
+        new Thread(new DefaultBlockCreator()).start();
         BlocksList.readFile();
         invokeLater(Main::new);
     }
