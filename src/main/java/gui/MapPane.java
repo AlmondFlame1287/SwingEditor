@@ -43,22 +43,20 @@ public class MapPane extends JPanel implements MouseListener {
     }
 
     public void clear() {
-        this.getGraphics().clearRect(0, 0, 800, 600);
+        this.graphics.clearRect(0, 0, 800, 600);
+        GAME_MAP.deleteMap();
     }
 
     private void drawMap(Graphics g) {
         if(!GAME_MAP.isMapLoaded()) return;
 
         for(Block block : GAME_MAP.getBlocks()) {
-            g.setColor(block.getColor());
-            g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
+            g.drawImage(block.getImage(), block.getX(), block.getY(), null);
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        this.graphics = this.getGraphics();
-
         if(e.getButton() == MouseEvent.BUTTON1)
             this.drawBlock(e.getX(), e.getY(), EditorPane.getBlock());
         else
@@ -75,12 +73,16 @@ public class MapPane extends JPanel implements MouseListener {
             return;
         }
 
+        if(blockToDraw.getImage() == null) {
+            System.err.println("[MAP_PANE] Couldn't draw image");
+            return;
+        }
+
         System.out.println("DREW BLOCK AT X:" + drawingX + " Y: " + drawingY);
         blockToDraw.setCoords(drawingX, drawingY);
         GAME_MAP.addBlock(blockToDraw);
 
-        this.graphics.setColor(blockToDraw.getColor());
-        this.graphics.fillRect(drawingX, drawingY, Block.SIZE, Block.SIZE);
+        this.graphics.drawImage(blockToDraw.getImage(), drawingX, drawingY, null);
     }
 
     @Override
@@ -90,7 +92,10 @@ public class MapPane extends JPanel implements MouseListener {
     public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+        if(this.graphics == null)
+            this.graphics = this.getGraphics();
+    }
 
     @Override
     public void mouseExited(MouseEvent e) {}
