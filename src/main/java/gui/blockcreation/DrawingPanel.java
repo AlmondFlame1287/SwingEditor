@@ -11,11 +11,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static utils.Constants.IMG_TYPE;
+
 /**
  * Drawing panel for the BlockCreation structure
  */
 public class DrawingPanel extends JPanel implements MouseListener {
-    public static final int IMG_TYPE = BufferedImage.TYPE_INT_RGB;
     private Color paintColor;
     private Graphics graphics;
     private BufferedImage img;

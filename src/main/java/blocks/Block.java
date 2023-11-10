@@ -7,9 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 
+import static utils.Constants.IMAGES_PATH;
+
 public class Block implements Serializable {
     public static final int SIZE = 32;
-    public static final String IMAGE_DIR = System.getProperty("user.home") + "/blocks/";
     private final int[] coords = new int[2];
     protected String name;
     protected File imgFile;
@@ -21,7 +22,7 @@ public class Block implements Serializable {
 
     public Block(String name) {
         this.name = name;
-        imgFile = new File(IMAGE_DIR + this.name + ".png");
+        imgFile = new File(IMAGES_PATH + this.name + ".png");
     }
 
     public Image getImage() {
@@ -29,8 +30,6 @@ public class Block implements Serializable {
             if(!imgFile.exists())
                 throw new FileNotFoundException("File doesn't exist");
             return ImageIO.read(imgFile).getScaledInstance(SIZE, SIZE, Image.SCALE_FAST);
-        } catch (FileNotFoundException fnf) {
-            System.err.println("[BLOCK] There was a problem reading the image: " + fnf.getMessage());
         } catch (IOException ioe) {
             System.err.println("[BLOCK] There was a problem getting the image: " + ioe.getMessage());
         }
@@ -38,6 +37,7 @@ public class Block implements Serializable {
     }
 
     public String getName() { return this.name; }
+
     public int getX() {
         return this.coords[0];
     }

@@ -18,7 +18,7 @@ public class Main extends JFrame  {
     public static final int WIDTH = 800;
     private final JSplitPane mainPanel = new JSplitPane();
     private final EditorPane editorPane = new EditorPane(this);
-    private final MapPane mapPane = new MapPane(this);
+    private final MapPane mapPane = new MapPane();
 
     public Main() {
         this.setupJMenuBar();
