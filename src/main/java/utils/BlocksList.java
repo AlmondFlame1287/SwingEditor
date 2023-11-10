@@ -6,20 +6,22 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static utils.Constants.BLOCKS_DIRECTORY;
+import static utils.Constants.BLOCKS_PATH;
+
 public final class BlocksList {
-    public static final String BLOCKLIST_FOLDER = System.getProperty("user.home") + "/blocks/";
-    private static final String BLOCKLIST_PATH = BLOCKLIST_FOLDER + "blocks.txt";
-    private static final File BLOCKLIST_FILE = new File(BLOCKLIST_PATH);
     private static String[] blockNames;
 
     /**
      * Creates new file if the program was run for the first time.
      */
     public static void createNewFile() {
+        File blockList = new File(BLOCKS_PATH);
+
         try {
-            File dir = new File(BLOCKLIST_FOLDER);
+            File dir = new File(BLOCKS_DIRECTORY);
             boolean dirRes = dir.mkdir();
-            boolean fileRes = BLOCKLIST_FILE.createNewFile();
+            boolean fileRes = blockList.createNewFile();
             if(!dirRes && !fileRes) {
                 throw new IOException("File was not created successfully");
             }
@@ -30,11 +32,11 @@ public final class BlocksList {
             System.err.println("[BLOCKLIST] There was a problem: " + npe.getMessage());
         }
 
-        initFile();
+        initFile(blockList);
     }
 
-    private static void initFile() {
-        try(FileWriter fw = new FileWriter(BLOCKLIST_FILE);
+    private static void initFile(File blockList) {
+        try(FileWriter fw = new FileWriter(blockList);
             BufferedWriter bw = new BufferedWriter(fw)) {
             Block[] blocksToWrite = {new Block("Air"), new Block("Grass"), new Block("Dirt"), new Block("Spawnpoint")};
 
@@ -58,11 +60,12 @@ public final class BlocksList {
      * Reads the <code>BLOCKLIST_FILE</code>
      */
     public static void readFile() {
-        if(!BLOCKLIST_FILE.exists())
+        File blockList = new File(BLOCKS_PATH);
+
+        if(!blockList.exists())
             createNewFile();
 
-
-        try(FileReader fr = new FileReader(BLOCKLIST_FILE);
+        try(FileReader fr = new FileReader(blockList);
             BufferedReader br = new BufferedReader(fr)) {
 
             ArrayList<Block> readBlocks = new ArrayList<>();
@@ -90,9 +93,11 @@ public final class BlocksList {
         }
 
     }
+
     public static String getBlockName(int index) {
         return blockNames[index];
     }
+
     public static String[] getBlockNames() {
         return blockNames;
     }
