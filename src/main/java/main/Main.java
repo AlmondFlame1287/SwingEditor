@@ -74,8 +74,10 @@ public class Main extends JFrame  {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new Thread(new DefaultBlockCreator()).start();
+    public static void main(String[] args) throws InterruptedException {
+        Thread createBlocks = new Thread(new DefaultBlockCreator());
+        createBlocks.start();
+        createBlocks.join();
         BlocksList.readFile();
         invokeLater(Main::new);
     }

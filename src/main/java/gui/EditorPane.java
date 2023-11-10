@@ -50,9 +50,11 @@ public class EditorPane extends JPanel {
 
     public static Block getBlock() {
         try {
-            return BlocksList.getBlocks()[NAME_LIST.getSelectedIndex()];
+            // This is the problem.
+            // It returns the same exact block object. To fix: return a new Block of the same type.
+            return new Block(BlocksList.getBlockName(NAME_LIST.getSelectedIndex())); // Temp fix maybe?
         } catch (Exception e) {
-            System.err.println("EDITORPANE: Something went wrong: " + e.getMessage());
+            System.err.println("[EDITOR_PANE]: Something went wrong: " + e.getMessage());
             return null;
         }
     }

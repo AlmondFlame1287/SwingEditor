@@ -10,7 +10,6 @@ public final class BlocksList {
     public static final String BLOCKLIST_FOLDER = System.getProperty("user.home") + "/blocks/";
     private static final String BLOCKLIST_PATH = BLOCKLIST_FOLDER + "blocks.txt";
     private static final File BLOCKLIST_FILE = new File(BLOCKLIST_PATH);
-    private static Block[] blocks;
     private static String[] blockNames;
 
     /**
@@ -78,12 +77,10 @@ public final class BlocksList {
                 readBlocks.add(newBlock);
             }
 
-            blocks = new Block[readBlocks.size()];
             blockNames = new String[readBlocks.size()];
 
             for (int i = 0; i < blockNames.length; i++) {
                 blockNames[i] = readBlocks.get(i).getName();
-                blocks[i] = readBlocks.get(i);
             }
 
             readBlocks.clear();
@@ -93,11 +90,9 @@ public final class BlocksList {
         }
 
     }
-
-    public static Block[] getBlocks() {
-        return blocks;
+    public static String getBlockName(int index) {
+        return blockNames[index];
     }
-
     public static String[] getBlockNames() {
         return blockNames;
     }
