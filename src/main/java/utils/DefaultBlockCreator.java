@@ -8,10 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static gui.blockcreation.DrawingPanel.IMG_TYPE;
+import static utils.Constants.IMAGES_PATH;
+import static utils.Constants.IMG_TYPE;
 
 public class DefaultBlockCreator implements Runnable {
-    private static final int IMG_SIZE = Block.SIZE * 10;
     @Override
     public void run() {
         createImage("Air", Color.WHITE);
@@ -21,6 +21,8 @@ public class DefaultBlockCreator implements Runnable {
     }
 
     private void createImage(String blockName, Color c) {
+        final int IMG_SIZE = Block.SIZE * 10;
+
         BufferedImage img = new BufferedImage(IMG_SIZE, IMG_SIZE, IMG_TYPE);
         Graphics2D g2d = img.createGraphics();
 
@@ -32,10 +34,14 @@ public class DefaultBlockCreator implements Runnable {
     }
 
     private void saveImage(String blockName, BufferedImage img) {
-        File imgFile = new File(BlocksList.BLOCKLIST_FOLDER + blockName + ".png");
+        File imgDir = new File(IMAGES_PATH);
+        File imgFile = new File(IMAGES_PATH + blockName + ".png");
+
+        if(imgFile.exists()) return;
 
         try {
-            if(imgFile.exists()) return;
+            if(!imgDir.exists())
+                imgDir.mkdir();
 
             imgFile.createNewFile();
             ImageIO.write(img, "png", imgFile);
