@@ -51,6 +51,8 @@ public class MapPane extends JPanel implements MouseListener {
         if(!GAME_MAP.isMapLoaded()) return;
 
         for(Block block : GAME_MAP.getBlocks()) {
+            System.out.println("[LOGGING] Block name: " + block.getName() + " Block x: " + block.getX() +
+                    " Block y: " + block.getY());
             g.drawImage(block.getImage(), block.getX(), block.getY(), null);
         }
     }
