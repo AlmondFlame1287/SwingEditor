@@ -4,7 +4,6 @@ import blocks.Block;
 import elements.GameMap;
 
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JFileChooser;
 
 import java.awt.event.MouseEvent;
