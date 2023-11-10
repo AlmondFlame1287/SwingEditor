@@ -13,34 +13,28 @@ public class Block implements Serializable {
     private final int[] coords = new int[2];
     protected String name;
     protected File imgFile;
-    protected Image blockTexture;
 
     public Block(String name, String path) {
         this.name = name;
         imgFile = new File(path);
-        this.loadImage();
     }
 
     public Block(String name) {
         this.name = name;
         imgFile = new File(IMAGE_DIR + this.name + ".png");
-        this.loadImage();
-    }
-
-    private void loadImage() {
-        try {
-            if(!imgFile.exists())
-                throw new FileNotFoundException("File doesn't exist");
-            this.blockTexture = ImageIO.read(imgFile).getScaledInstance(SIZE, SIZE, Image.SCALE_FAST);
-        } catch(FileNotFoundException fnf) {
-            System.err.println("[BLOCK] " + fnf.getMessage());
-        } catch(IOException ioe) {
-            System.err.println("[BLOCK] There was a problem reading the image: " + ioe.getMessage());
-        }
     }
 
     public Image getImage() {
-        return this.blockTexture;
+        try {
+            if(!imgFile.exists())
+                throw new FileNotFoundException("File doesn't exist");
+            return ImageIO.read(imgFile).getScaledInstance(SIZE, SIZE, Image.SCALE_FAST);
+        } catch (FileNotFoundException fnf) {
+            System.err.println("[BLOCK] There was a problem reading the image: " + fnf.getMessage());
+        } catch (IOException ioe) {
+            System.err.println("[BLOCK] There was a problem getting the image: " + ioe.getMessage());
+        }
+        return null;
     }
 
     public String getName() { return this.name; }
